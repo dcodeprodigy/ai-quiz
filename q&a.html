@@ -1,0 +1,227 @@
+<!DOCtype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="content" >
+    <link href="../src/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Machine-Learning-Based Quiz App</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 15px;
+            
+        }
+
+       .form{
+
+       }
+
+        .label{
+            display: flex !important; /* This helps keep the span with letters A-D and labelTxt intact on smaller screens*/
+            align-items: center;
+            gap: 10px;
+            
+            margin-bottom: 12px !important;
+            text-align: left;
+            padding: 10px 16px;
+
+        }
+
+        .option{
+            background-color: rgb(225, 225, 253);
+            color: #131316;
+            padding: 10px 18px;
+            border-radius: 8px;
+            margin-right: 5px;
+            font-weight: 700;
+
+            transition: 
+            background-color 300ms ease,
+            color 300ms ease
+            ;
+        }
+
+
+        /* For them labels */
+
+        /* Apply when checked */
+        input[type="radio"]:checked+label  
+        {
+            background-color: #ffb882;
+            color: #fff;
+        }
+
+        input[type="radio"]:checked+label .option  
+        {
+            background-color: #f89950;
+            color: #fff;
+        }
+
+        
+
+        label { /* This controls the button like radio buttons seen*/
+           
+            text-align: center;
+            border: 0.8px solid rgba(48, 48, 48, 0.226);
+            cursor: pointer;
+            flex: 1;
+            padding: 8px 16px;   
+            border-radius: 8px;
+
+            transition: 
+            background 300ms ease,
+            background-color 300ms ease,
+            color 300ms ease,
+            box-shadow 300ms ease
+            ;
+
+        }
+
+        label:hover {
+            background: #eeeeee;
+        }
+
+
+        .continueBtn{
+            background-color: #f89950;
+            color: #fff;
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 16px;
+
+            transition: background-color 300ms ease;
+        }
+
+        .continueBtn:hover{
+            background-color: #f89950da;
+
+        }
+
+        .continueBtn:active{
+            background-color: #f8995088;
+
+        }
+
+
+        /* Explanation Section */
+
+        .explanationSection{
+            background-color: #eeeeee;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 14px 0;
+            margin-bottom: 20px;
+
+        }
+
+        .explanationSection h3{
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .explanationSection p{
+            
+        }
+        
+
+
+        
+
+
+        
+    </style>
+</head>
+<body>
+    <!-- For the displayed questions -->
+    <main class="m-auto  main">
+        <form autocomplete="on" action="generate_questions.js" onsubmit="" class="form self-center justify-center">
+
+
+            <section class="inputSection"> 
+                
+                    <h3 class="font-bold text-2xl">Q1</h3>
+                    <p>What is the primary function of the cell cycle?</p>
+                    <div class="chooseQuestForm">
+                        <br>
+                        <div class="flex flex-col gap-3">
+    
+                            <input type="radio" class="" name="Type" value="A" id="A" checked>
+                            <label for="A" class="label">
+                                <span class="option">A</span>
+                                <span id="labelTxt">
+                                    To synthesize proteins and enzymes
+                                </span>
+                            </label>
+                                
+    
+                            <input type="radio" class="" name="Type" value="B" id="B">
+                            <label for="B" class="label">
+                                <span class="option">B</span>
+                                <span id="labelTxt">
+                                    To replicate DNA and divide into two daughter cells
+                                </span>
+                            </label>
+
+                            <input type="radio" class="" name="Type" value="C" id="C">
+                            <label for="C" class="label">
+                                <span class="option">C</span>
+                                <span id="labelTxt">
+                                    To transport nutrients and waste products
+                                </span>
+                            </label>
+                                
+
+                            <input type="radio" class="" name="Type" value="D" id="D">
+                            <label for="D" class="label">
+                                <span class="option">D</span>
+                                <span id="labelTxt">
+                                    To transport nutrients and waste products
+                                </span>
+                            </label>
+                        
+                        </div>
+
+                        <!-- For Inserting Explanation -->
+                         <div id="explanationSection" class="explanationSection">
+                            <h3 class="font-bold ">Explanations</h3>
+
+                            <!-- CLONE THIS BASED ON NUMBER OF OPTIONS -->
+                            <p id="explanation"> 
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos aspernatur beatae voluptatibus pariatur delectus exercitationem dolore assumenda eum saepe enim, reprehenderit architecto perspiciatis doloremque voluptas perferendis impedit iste illo fuga?
+                            </p>
+                         </div>
+                        
+                        <!-- For Checking Answers -->
+                         <button class="continueBtn">Continue</button>
+                    </div>
+                    
+                
+                
+
+                
+                
+            </section>
+
+
+            
+        </form>
+        
+    </main>
+
+    
+
+
+    <script src="index.js">
+    </script>
+    <script>
+        const labels = document.querySelectorAll("label");
+
+        
+        
+    </script>
+</body>
+</html>

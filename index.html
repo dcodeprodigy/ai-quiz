@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../src/output.css" rel="stylesheet">
-    <title>Machine-Learning-Based Quiz App</title>
     <link rel="stylesheet" href="style.css">
+    <title>Machine-Learning-Based Quiz App</title>
     <style>
         *{
             box-sizing: border-box;
@@ -22,7 +22,7 @@
 </head>
 <body>
     <main class="m-auto main">
-        <form class="form self-center justify-center">
+         <form autocomplete="on" onsubmit="runChecks(this)" class="form self-center justify-center">
             <section class="flex flex-row justify-between items-center sticky top-0 headSection"> <!-- For the Head Section-->
                 <h2 class="font-bold text-xl">Create Questions</h2>
                 <button type="submit" class="btn flex justify-between items-center cursor-pointer bg-slate-400 z-10">
@@ -34,23 +34,24 @@
             <section class="inputSection"> <!-- The Input Section et al-->
                 <!-- <input type="reset" value="Clear Form" class="bg-slate-200 absolute right-1 bottom-1 cursor-pointer"> -->
                 <!-- For the Prompt Input Section -->
-                    <textarea type="text" name="Prompt" id="promptInput" placeholder="Please Enter Context for Generating Your Questions" class="w-full rounded-xl border-none promptArea bg-slate-100"></textarea>
+                    <textarea type="text" name="prompt" id="promptInput" placeholder="Please Enter Context for Generating Your Questions." class="w-full rounded-xl border-none promptArea bg-slate-100"></textarea>
+                    <!-- <img src="" alt="Tips Icon" class=""> -->
                     
                 
                 <div class="chooseQuestForm">
                     <h3 class="font-bold text-lg">Type</h3>
                     <div class="btnContainer flex justify-between">
 
-                        <input type="radio" class="btnSelected btnNull" name="Type" value="Questions" id="questions">
+                        <input type="radio" class="btnSelected btnNull" name="type" value="Questions" id="questions" onchange="showSelections()">
                         <label for="questions">Questions</label>
 
-                        <input type="radio" class="btnSelected btnNull" name="Type" value="Quiz" id="quiz"  checked>
+                        <input type="radio" class="btnSelected btnNull" name="type" value="Quiz" id="quiz"  checked onchange="showSelections()">
                         <label for="quiz" class="">Quiz</label>
                         <!-- <button class="btnSelected btnNull" name="Type">
                             Open
                         </button> -->
-                        <input type="radio" class="btnSelected btnNull" name="Type" value="Open" id="open">
-                        <label for="open">Open</label>
+                        <input type="radio" class="btnSelected btnNull" name="type" value="Open" id="open" onchange="hideSelections()">
+                        <label for="open" >Open</label>
                     </div>
                     
                 </div>
@@ -60,10 +61,10 @@
                     <div class="btnContainer flex justify-between" >
                         
 
-                        <input type="radio" class="btnSelected btnNull" name="From" value="Topic" id="topic">
+                        <input type="radio" class="btnSelected btnNull" name="from" value="Topic" id="topic">
                         <label for="topic">Topic</label>
 
-                        <input type="radio" class="btnSelected btnNull" name="From" value="Context" id="context"  checked>
+                        <input type="radio" class="btnSelected btnNull" name="from" value="Context" id="context"  checked>
                         <label for="context">Context</label>
 
                         
@@ -71,33 +72,33 @@
                     
                 </div>
 
-                <div class="chooseQuestForm">
+                <div class="chooseQuestForm clearRestore">
                     <h3 class="font-bold text-lg">Question Type</h3>
                     <div class="btnContainer flex justify-between">
-                        <input type="radio" class="btnSelected btnNull" name="Question Type" value="MCQs" id="mcqs" checked>
+                        <input type="radio" class="btnSelected btnNull" name="question_type" value="MCQs" id="mcqs" checked>
                         <label for="mcqs">MCQs</label>
                 
-                        <input type="radio" class="btnSelected btnNull" name="Question Type" value="T/F" id="tf">
+                        <input type="radio" class="btnSelected btnNull" name="question_type" value="T/F" id="tf">
                         <label for="tf">T/F</label>
                 
-                        <input type="radio" class="btnSelected btnNull" name="Question Type" value="Mix" id="mix">
-                        <label for="mix">Mix</label>
+                        <!-- <input type="radio" class="btnSelected btnNull" name="question_type" value="Mix" id="mix">
+                        <label for="mix">Mix</label> -->
                     </div>
                 </div>
                 
-                <div class="chooseQuestForm">
+                <div class="chooseQuestForm clearRestore">
                     <h3 class="font-bold text-lg">Number of Choices</h3>
                     <div class="btnContainer flex justify-between">
-                        <input type="radio" class="btnSelected btnNull" name="No. of Options" value="2" id="options2">
+                        <input type="radio" class="btnSelected btnNull" name="no_of_choices" value="2" id="options2">
                         <label for="options2">2</label>
                 
-                        <input type="radio" class="btnSelected btnNull" name="No. of Options" value="3" id="options3">
+                        <input type="radio" class="btnSelected btnNull" name="no_of_choices" value="3" id="options3">
                         <label for="options3">3</label>
                 
-                        <input type="radio" class="btnSelected btnNull" name="No. of Options" value="4" id="options4" checked>
+                        <input type="radio" class="btnSelected btnNull" name="no_of_choices" value="4" id="options4" checked>
                         <label for="options4">4</label>
                 
-                        <input type="radio" class="btnSelected btnNull" name="No. of Options" value="5" id="options5">
+                        <input type="radio" class="btnSelected btnNull" name="no_of_choices" value="5" id="options5">
                         <label for="options5">5</label>
                     </div>
                 </div>
@@ -105,13 +106,13 @@
                 <div class="chooseQuestForm">
                     <h3 class="font-bold text-lg">Number of Questions</h3>
                     <div class="btnContainer flex justify-between">
-                        <input type="radio" class="btnSelected btnNull" name="No. of Questions" value="15" id="questions15">
+                        <input type="radio" class="btnSelected btnNull" name="no_of_questions" value="15" id="questions15" checked>
                         <label for="questions15">15</label>
                 
-                        <input type="radio" class="btnSelected btnNull" name="No. of Questions" value="30" id="questions30">
+                        <input type="radio" class="btnSelected btnNull" name="no_of_questions" value="30" id="questions30">
                         <label for="questions30">30</label>
 
-                        <input type="radio" class="btnSelected btnNull" name="No. of Questions" value="50" id="questions50">
+                        <input type="radio" class="btnSelected btnNull" name="no_of_questions" value="50" id="questions50">
                         <label for="questions50">50</label>
                     </div>
                 </div>
@@ -119,10 +120,10 @@
                 <div class="chooseQuestForm">
                     <h3 class="font-bold text-lg">Include Explanation?</h3>
                     <div class="btnContainer flex justify-between">
-                        <input type="radio" class="btnSelected btnNull" name="Include Explanation" value="Yes" id="yes">
+                        <input type="radio" class="btnSelected btnNull" name="include_explanation" value="Yes" id="yes">
                         <label for="yes">Yes</label>
                 
-                        <input type="radio" class="btnSelected btnNull" name="Include Explanation" value="No" id="no"  checked>
+                        <input type="radio" class="btnSelected btnNull" name="include_explanation" value="No" id="no"  checked>
                         <label for="no">No, Lol</label>
                     </div>
                 </div>
@@ -132,13 +133,13 @@
                 <div class="chooseQuestForm">
                     <h3 class="font-bold text-lg">Difficulty</h3>
                     <div class="btnContainer backDrop flex justify-between">
-                        <input type="radio" class="selected btnNull btnLevel" name="Difficulty" value="Easy" id="easy">
+                        <input type="radio" class="selected btnNull btnLevel" name="difficulty" value="Easy" id="easy">
                         <label for="easy" class="btnNull btnLevel difficulty">&#x1F60A; Easy</label>
                 
-                        <input type="radio" class="selected btnLevelSelected btnNull btnLevel" name="Difficulty" value="Medium" id="medium"  checked>
+                        <input type="radio" class="selected btnLevelSelected btnNull btnLevel" name="difficulty" value="Medium" id="medium"  checked>
                         <label for="medium" class="btnNull btnLevel difficulty">&#x1F610; Medium</label>
                 
-                        <input type="radio" class="selected btnNull btnLevel align-middle" name="Difficulty" value="Hard" id="hard">
+                        <input type="radio" class="selected btnNull btnLevel align-middle" name="difficulty" value="Hard" id="hard">
                         <label for="hard" class="btnNull btnLevel difficulty">&#x1F912; Hard</label>
                     </div>
                 </div>
@@ -151,6 +152,10 @@
         </form>
         
     </main>
+
+
+
+    
 
 
     <script src="index.js">
