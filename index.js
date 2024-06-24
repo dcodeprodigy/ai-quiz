@@ -323,14 +323,21 @@ async function runChecks(quizForm) {
                     // alert("correct");
                     // selectedInputByUser.checked = false;
                     continueBtn.classList.add("continueBtnCorrect");
-
                     selectedLabelByUser.classList.add("correctLabelToUser");
                     selectedLabelOption.classList.add("correctLabelOption");
+
                     markQuestions.forEach((mark) => {
                       if (mark.classList.contains(`${selectedInputByUser.id}`)) {
                         mark.insertAdjacentHTML("beforeend", `<div class="light-green-check">&#10003; Correct Answer</div>`);
                       }
                     });
+
+                    // Unchecks any checked element
+                    const correctAnswerForm = document.getElementById("newQuizForm");
+                    const allCheckedInput = correctAnswerForm.querySelectorAll("input:checked");
+                    allCheckedInput.forEach((checkedInput) =>{ // Uncheck to avoid CSS Specificity problems
+                      checkedInput.checked ? checkedInput.checked = false : null;
+                    })
 
                     userScore++;
 
@@ -355,7 +362,7 @@ async function runChecks(quizForm) {
                     const allCheckedInput = correctAnswerForm.querySelectorAll("input:checked");
                     allCheckedInput.forEach((checkedInput) =>{ // Uncheck to avoid CSS Specificity problems
                       checkedInput.checked ? checkedInput.checked = false : null;
-                    })
+                    });
 
                     // Uncheck to avoid CSS Specificity problem
                     const correctLabelShownToUser = correctAnswerForm.querySelector(`label[for="${correctAnsShownToUser.id}"]`);
@@ -414,7 +421,8 @@ async function runChecks(quizForm) {
 
         )
     } catch (error) {
-      console.log(error)
+      alert("Oh no! Something Went Wrong. Please Try Again Later");
+      console.log(error);
     }
 
     toggleGenerateBtn();
