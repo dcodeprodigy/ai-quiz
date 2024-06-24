@@ -206,7 +206,8 @@ function additionalInstructions(){
 
 
 const PORT = process.env.PORT || 5500;
+const HOST = process.env.HOST; // Listen on all network interfaces in production
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Server is running on http://${HOST}:${PORT}`); 
 });
