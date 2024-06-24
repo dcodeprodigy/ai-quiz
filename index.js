@@ -131,7 +131,7 @@ async function runChecks(quizForm) {
 
 
     try {
-      await axios.post('http://0.0.0.0:5500/genQuestions', formData, {
+      await axios.post('/genQuestions', formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         }
