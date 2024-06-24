@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&display=swap');
+/* Adding import at this CSS styling and not on Index.html will help the initial page load faster by preventing the load of fonts we are not using just yet */
+
+.quizSection{
+    box-sizing: border-box;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    
+}
+
+.quizSection{
+    padding: 10px;
+    position: relative;
+    height: 100dvh;
+    /* overflow-y: scroll; */
+}
+
+.label{
+    display: flex !important; /* This helps keep the span with letters A-D and labelTxt intact on smaller screens*/
+    align-items: center;
+    gap: 10px;
+    
+    margin-bottom: 12px !important;
+    text-align: left !important;
+    padding: 10px 16px !important;
+
+}
+
+.option{
+    background-color: rgb(225, 225, 253);
+    color: #131316;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-right: 5px;
+    font-weight: 700;
+
+    transition: 
+    background-color 300ms ease,
+    color 300ms ease
+    ;
+}
+
+
+/* For Question Section */
+.inputSection {
+    padding: 16px;
+    overflow-y: auto;
+}
+
+h3{
+    margin-bottom: 10px;
+    font-family: "Noto Naskh Arabic", serif;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Apply when checked */
+input[type="radio"]:checked+.label  
+{
+    background-color: #ffa866;
+    color: #fff;
+}
+
+
+
+input[type="radio"]:checked+.label .option  
+{
+    background-color: #ff8b33;
+    color: #fff !important;
+}
+
+
+
+
+.label { /* This controls the button like radio buttons seen*/
+   
+    text-align: left;
+    border: 0.8px solid rgba(48, 48, 48, 0.226);
+    cursor: pointer;
+    flex: 1;
+    padding: 8px 10px;   
+    border-radius: 8px;
+
+    transition: 
+    background 300ms ease,
+    background-color 300ms ease,
+    color 300ms ease,
+    box-shadow 300ms ease
+    !important;
+
+}
+
+.label:hover {
+    background: #eeeeee;
+}
+
+
+.continueBtn{
+    background-color: #ff8b33; /* Formally important*/
+    color: #fff;
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 16px;
+  
+
+    transition: background-color 300ms ease !important;
+}
+
+.continueBtn:hover{
+    background-color: #f89950da; /* Formally important*/
+
+}
+
+.continueBtn:active{
+    background-color: #f8995088 ; /* Formally important*/
+
+}
+
+
+/* Explanation Section */
+
+.explanationSection{
+    background-color: #eeeeee;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 14px 0;
+    margin-bottom: 20px;
+
+}
+
+.explanationSection h3{
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* .explanationSection p{
+    
+} */
+
+/* Label Option Section */
+
+.correctLabelOption{
+    color: #fff !important;
+    background-color: #2DCC70 !important;
+}
+.light-green-check{
+    color: #2DCC70 !important;
+    font-weight: bold;
+    margin-top: -10px;
+    margin-bottom: 5px;
+}
+
+.correctLabelToUser{
+    background-color: #CBF3DB !important;
+    color: #131316 !important;
+    cursor: default;
+}
+
+.correctLabelTxtToUser{
+    color: #131316;
+}
+
+.wrongLabelToUser{
+    background-color: #FBBEC3 !important;
+    color: #131316 !important;
+}
+
+.wrongLabelOption{
+    color: #fff !important;
+    background-color: #EC2937 !important; 
+}
+
+.light-cross-checkmark{
+    color: #EC2937 !important; 
+    font-weight: bold; 
+    margin-top: -10px;
+    margin-bottom: 5px;
+}
+
+
+
+/* fOR THE LABEL TEXTS */
+.labelTxts{
+    color: #131316;
+}
+
+input[type="radio"]:checked+.label .labelTxts{
+    color: #fff;
+}
+
+/* For the label option */
+.labelOption{
+    color: #131316;
+    background-color: rgb(225, 225, 253);
+}
+
+/* For changing continue button states */
+.continueBtnCorrect{
+    background-color: #2DCC70;
+}
+
+.continueBtnCorrect:hover{
+    background-color: #2dcc6f98;
+}
+
+.continueBtnWrong{
+    background-color: #EC2937;
+}
+
+.continueBtnWrong:hover{
+    background-color: #ec2936a4;
+}
+                          
