@@ -57,7 +57,7 @@ h3{
 }
 
 /* Apply when checked */
-input[type="radio"]:checked+label  
+input[type="radio"]:checked+.label  
 {
     background-color: #ffa866;
     color: #fff;
@@ -65,10 +65,10 @@ input[type="radio"]:checked+label
 
 
 
-input[type="radio"]:checked+label .option  
+input[type="radio"]:checked+.label .option  
 {
     background-color: #ff8b33;
-    color: #fff;
+    color: #fff !important;
 }
 
 
@@ -88,7 +88,7 @@ input[type="radio"]:checked+label .option
     background-color 300ms ease,
     color 300ms ease,
     box-shadow 300ms ease
-    ;
+    !important;
 
 }
 
@@ -139,6 +139,8 @@ input[type="radio"]:checked+label .option
     
 } */
 
+/* Label Option Section */
+
 .correctLabelOption{
     color: #fff !important;
     background-color: #2DCC70 !important;
@@ -148,6 +150,21 @@ input[type="radio"]:checked+label .option
     font-weight: bold;
     margin-top: -10px;
     margin-bottom: 5px;
+}
+
+.correctLabelToUser{
+    background-color: #CBF3DB !important;
+    color: #131316 !important;
+    cursor: default;
+}
+
+.correctLabelTxtToUser{
+    color: #131316;
+}
+
+.wrongLabelToUser{
+    background-color: #FBBEC3 !important;
+    color: #131316 !important;
 }
 
 .wrongLabelOption{
@@ -163,4 +180,36 @@ input[type="radio"]:checked+label .option
 }
 
 
+
+/* fOR THE LABEL TEXTS */
+.labelTxts{
+    color: #131316;
+}
+
+input[type="radio"]:checked+.label .labelTxts{
+    color: #fff;
+}
+
+/* For the label option */
+.labelOption{
+    color: #131316;
+    background-color: rgb(225, 225, 253);
+}
+
+/* For changing continue button states */
+.continueBtnCorrect{
+    background-color: #2DCC70;
+}
+
+.continueBtnCorrect:hover{
+    background-color: #2dcc6f98;
+}
+
+.continueBtnWrong{
+    background-color: #EC2937;
+}
+
+.continueBtnWrong:hover{
+    background-color: #ec2936a4;
+}
                           
