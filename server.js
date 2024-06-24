@@ -60,15 +60,15 @@ const tOrFalseSchema = `{
     "questions": [
         {
             "question": "generated question",
-            "options": [True, False],
-            "answer": "either true or false",
-            "explanation": "explanation to the why of the answer given"
+            "options": ["True", "False"],
+            "answer": "either true or false. YOUR ANSWER MUST BE CORRECT SO, MAKE SURE TO CONFIRM",
+            "explanation": "explanation to the why of the correct answer. Explain like you do not know what option the user selected. Just explain the right answer to the question"
         },
         {
             "question": "generated question",
             "options": [True, False],
-            "answer": "either true or false",
-            "explanation": "explanation to the why of the answer given"
+            "answer": "either true or false. YOUR ANSWER MUST BE CORRECT SO, MAKE SURE TO CONFIRM",
+            "explanation": "explanation to the why of the correct answer. Explain like you do not know what option the user selected. Just explain the right answer to the question"
         } // Other questions, as specified
     ]
 }`
@@ -129,7 +129,7 @@ async function generateContent(formData) {
   // Generate questions
   try {
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-1.5-pro",
       safetySetting,
       systemInstruction: `You are an expert Question/Quiz Setter, who would generate questions/quiz/open-ended-questions based on the prompts the user includes. The questions must not be straight forward but twisted in some kind of way so as to truly test the user's knowledge on the topic. The difficulty of this questions must be gotten from the prompt, with 'easy' meaning truly testing the knowledge but not too difficult, 'medium/neutral' meaning to truly test the user. This will bring out questions that question setters will likely set in an exam like environment. 'Hard' should mean to really twist the question so that only one with a deep understanding of the topic/context can easily get the correct answer.
       Explanations provided by you must be easy to grasp by a beginner and can be verbose if necessary. One important thing is that your explanation must not sound mechanic or ai like but MUST SOUND HUMAN. YOUR JSON OUTPUT MUST BE A VALID JSON, WITH ABSOLUTELY ZERO SYNTAX ERROR`,
