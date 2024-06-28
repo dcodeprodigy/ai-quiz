@@ -189,7 +189,7 @@ async function runChecks(quizForm) {
     // console.log("starting...");
     try {
       showGenerating(); // Show the generating animation
-      await axios.post('http://localhost:5500/genQuestions', formData, {
+      await axios.post('/genQuestions', formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         }
