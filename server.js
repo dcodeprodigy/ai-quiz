@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const app = express();
-const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
@@ -10,7 +9,7 @@ const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require('@googl
 // Middleware to parse JSON bodies
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname)));
+
 
 const safetySetting = [
   {
@@ -107,14 +106,14 @@ app.post('/genQuestions', async (req, res) => {
 
   // Validate Prompt
   if (formData.prompt <= 4) {
-    console.log(formData.prompt)
+    // console.log(formData.prompt);
     res.status(403).send({ error: "No Prompt" });
   }
 
   // Else, Generate questions
   try {
     const finalModelRes = await generateContent(formData);
-    console.log(finalModelRes);
+    console.log("Generate Finished");
     res.json({finalModelRes: finalModelRes, quizAppHTML: quizAppHTML}); // Send to User
 
   } catch (err) {
@@ -139,7 +138,7 @@ async function generateContent(formData) {
 
     async function finallyQueryGemini(prompt, explanation){
       const result = await model.generateContent(prompt);
-      await console.log(result); // Full API Response
+      // await console.log(result); // Full API Response
       const modelResponse = await result.response;
       const modelResText = modelResponse.text();
       return modelResText; // Final Model Response
@@ -157,7 +156,7 @@ async function generateContent(formData) {
 
         ${additionalInstructions()} GO!`;
 
-        console.log(prompt);
+        // console.log(prompt);
         return finallyQueryGemini(prompt, formData.include_explanation); // 2nd Query will help us to activate explanation section or not in the frontend
 
       } else if (formData.question_type === "True or False"){
@@ -171,7 +170,7 @@ async function generateContent(formData) {
 
        ${additionalInstructions()} GO!`;
 
-        console.log(prompt);
+        // console.log(prompt);
         return finallyQueryGemini(prompt, formData.include_explanation); // 2nd Query will help us to activate explanation section or not in the frontend
 
 
@@ -185,7 +184,7 @@ async function generateContent(formData) {
          ${openSchema}
 
         ${additionalInstructions()}. Lastly, please frame your question and answer like it were a flashcard, used to study for exams. GO!`;
-        console.log(prompt);
+        // console.log(prompt);
         return finallyQueryGemini(prompt, formData.include_explanation); // 2nd Query will help us to activate explanation section or not in the frontend
     }
 
@@ -207,8 +206,7 @@ function additionalInstructions(){
 
 
 const PORT = process.env.PORT || 5500;
-const HOST = process.env.HOST; // Listen on all network interfaces in production
 
-app.listen(PORT, HOST, () => {
-  console.log(`Server is running on http://${HOST}:${PORT}`); 
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

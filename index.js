@@ -4,6 +4,33 @@ const quizForm = document.getElementById("quizForm");
 const getQuestionTypes = document.getElementsByName("question_type");
 const generateBtn = document.getElementById("generateBtn");
 let openSelected = false; // Monitor if the open input is selected
+const loadingQuestions = document.querySelector(".main-wrapper");
+const errorCard = document.querySelector(".error-card");
+const cancelErrorCard = document.querySelector(".cancel-error-card");
+const errorCardContainer = document.querySelector(".error-card-container");
+let formElementRestState; // For saving the state of the form, in th case of reset
+let loadingAnimationHTML = `
+        <div class="main-wrapper">
+            <div class="card">
+                <div class="wrapper">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="shadow"></div>
+                    <div class="shadow"></div>
+                    <div class="shadow"></div>
+                </div>
+                <p>Generating Your Questions...</p>
+            </div>
+        </div>` // For displaying animation
+
+
+cancelErrorCard.addEventListener("click", () => { // Removes the displayd error message
+  setTimeout(() => {
+    errorCardContainer.classList.add("hidden");
+
+  }, 100);
+});
 
 // Checks for Updating Placeholder on Input Prompt Accordingly
 fromRadios.forEach(function (radio) {
@@ -87,8 +114,40 @@ function toggleExpl() {
 // Submitting the Form to Backend
 quizForm.addEventListener("submit", runChecks);
 
+function hideGenerating(state, saveFormState){
+  const bodyElement = document.querySelector("body");
+  const mainElement = document.querySelector("main");
+  const mainWrapper = document.querySelector(".main-wrapper");
+  const errorMsg = document.querySelector(".error-card-container");
+  
+  bodyElement.classList.contains("hideScroll") ? bodyElement.classList.remove("hideScroll") : bodyElement.classList.add("hideScroll");
+  mainWrapper ? mainWrapper.remove() : null;
+  state === true ? null : errorMsg.classList.remove("hidden"); // show or hide the error msg
+  
+  if (saveFormState === false){
+    const newQuizSection = document.querySelector(".quiz-section");
+    mainElement.insertAdjacentElement("afterbegin", formElementRestState);
+    mainElement.removeChild(newQuizSection);
+
+  }
+  
+
+
+  // mainElement.insertAdjacentHTML("afterbegin", loadingAnimationHTML);
+}
+
+
+function showGenerating() {
+  const bodyElement = document.querySelector("body");
+  const mainElement = document.querySelector("main");
+  bodyElement.classList.contains("hideScroll") ? bodyElement.classList.remove("hideScroll") : bodyElement.classList.add("hideScroll");
+  mainElement.insertAdjacentHTML("afterbegin", loadingAnimationHTML);
+}
+
+
 async function runChecks(quizForm) {
   event.preventDefault();
+
   toggleGenerateBtn();
   // generateBtn.disabled = true;
 
@@ -127,16 +186,17 @@ async function runChecks(quizForm) {
     toggleGenerateBtn();
 
   } else {
-    console.log("starting...");
-
-
+    // console.log("starting...");
     try {
-      await axios.post('/genQuestions', formData, {
+      showGenerating(); // Show the generating animation
+      await axios.post('http://localhost:5500/genQuestions', formData, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         }
       })
         .then((response) => {
+          
+
           console.log(response);
           const generatedQuestions = JSON.parse(response.data.finalModelRes); // Parse the JSON to object
           const quizSection = response.data.quizAppHTML;
@@ -145,12 +205,18 @@ async function runChecks(quizForm) {
             alert(response.statusText);
             console.error("Error from server:", response.data.error);
           } else {
-            // Handle Success Response
             const headElem = document.querySelector("head");
             const mainForm = document.getElementById("quizForm"); // Gets the form on the page
             const main = document.getElementById("main"); // Gets the main element on the page
 
-            mainForm.classList.toggle("hidden");
+            
+            formElementRestState = mainForm;
+
+            hideGenerating(true, true); // Hide the generating animation. The Boolean 1 indicates that the request was a success. This helps us to show or hide error msg. Boolean 2 shows that we have saved to form element's rest state
+
+            // Handle Success Response
+
+            mainForm.remove();
             main.insertAdjacentHTML("beforeend", quizSection); // Adds our template from the server
             const quizSectionLinkTag = `<link rel="stylesheet" href= "quiz.css">`
 
@@ -237,24 +303,24 @@ async function runChecks(quizForm) {
 
             const changeLabelOnCheck = newAnswerForm.querySelectorAll("label");
             const changeLabelTxtOnCheck = newAnswerForm.querySelectorAll("label #labelTxt"); // Remove the previous styling from showing the correct answer
-            const changeLabelOptOnCheck = newAnswerForm.querySelectorAll("label .option"); 
+            const changeLabelOptOnCheck = newAnswerForm.querySelectorAll("label .option");
 
-            changeLabelOnCheck.forEach((label) =>{
+            changeLabelOnCheck.forEach((label) => {
               label.addEventListener("change", () => {
-                changeLabelTxtOnCheck.forEach((labelTxt) =>{
-                    labelTxt.classList.contains("labelTxts") ? labelTxt.classList.remove("labelTxts") : null;
+                changeLabelTxtOnCheck.forEach((labelTxt) => {
+                  labelTxt.classList.contains("labelTxts") ? labelTxt.classList.remove("labelTxts") : null;
                 });
 
-                changeLabelOptOnCheck.forEach((option) =>{
-                    option.classList.contains("labelOption") ? option.classList.remove("labelOption") : null;
+                changeLabelOptOnCheck.forEach((option) => {
+                  option.classList.contains("labelOption") ? option.classList.remove("labelOption") : null;
                 })
-                
+
               })
             })
 
-            
 
-            
+
+
 
 
             newAnswerForm.addEventListener("submit", validateAnswerOrPopulate);
@@ -335,7 +401,7 @@ async function runChecks(quizForm) {
                     // Unchecks any checked element
                     const correctAnswerForm = document.getElementById("newQuizForm");
                     const allCheckedInput = correctAnswerForm.querySelectorAll("input:checked");
-                    allCheckedInput.forEach((checkedInput) =>{ // Uncheck to avoid CSS Specificity problems
+                    allCheckedInput.forEach((checkedInput) => { // Uncheck to avoid CSS Specificity problems
                       checkedInput.checked ? checkedInput.checked = false : null;
                     })
 
@@ -360,13 +426,13 @@ async function runChecks(quizForm) {
                     const correctAnswerForm = document.getElementById("newQuizForm");
                     const correctAnsShownToUser = correctAnswerForm.querySelector("input:checked");
                     const allCheckedInput = correctAnswerForm.querySelectorAll("input:checked");
-                    allCheckedInput.forEach((checkedInput) =>{ // Uncheck to avoid CSS Specificity problems
+                    allCheckedInput.forEach((checkedInput) => { // Uncheck to avoid CSS Specificity problems
                       checkedInput.checked ? checkedInput.checked = false : null;
                     });
 
                     // Uncheck to avoid CSS Specificity problem
                     const correctLabelShownToUser = correctAnswerForm.querySelector(`label[for="${correctAnsShownToUser.id}"]`);
-                    
+
                     const correctLabelShownToUserOption = correctLabelShownToUser.querySelector(".option");
 
                     correctLabelShownToUser.classList.add("correctLabelToUser"); // change the colors to green et al
@@ -402,6 +468,7 @@ async function runChecks(quizForm) {
                 } else {
                   // Display Final Quiz Results to User
                   alert(userScore);
+                  hideGenerating(true)
                 }
 
 
@@ -414,6 +481,7 @@ async function runChecks(quizForm) {
 
           console.log(quizSection);
           console.log("These are the questions generated ", generatedQuestions);
+
         }
 
 
@@ -421,8 +489,11 @@ async function runChecks(quizForm) {
 
         )
     } catch (error) {
-      alert("Oh no! Something Went Wrong. Please Try Again Later");
+      // errorCard.classList.remove("hidden");
+      errorCardContainer.classList.remove("hidden");
       console.log(error);
+      hideGenerating(); // Hide the generating animation
+
     }
 
     toggleGenerateBtn();
@@ -456,7 +527,7 @@ function clearFormData(newAnswerForm) {
     option.classList.contains("wrongLabelOption") ? option.classList.remove("wrongLabelOption") : null;
     option.classList.contains("correctLabelOption") ? option.classList.remove("correctLabelOption") : null;
 
-    
+
     labelTxt.textContent = ""; // Clear all label span text
     // labelTxt.color = "#fff";
     label.style.cursor = "pointer"; // Take cursors back to pointer
@@ -521,7 +592,7 @@ function resetLabel() {
 
 }
 
-  
+
 
 
 
