@@ -109,15 +109,13 @@
                     <h3 class="font-bold text-lg">Type</h3>
                     <div class="btnContainer flex justify-between">
 
-                        <input type="radio" class="btnSelected btnNull" name="type" value="Questions" id="questions" onchange="showSelections(this)">
+                        <input type="radio" class="btnSelected btnNull" name="type" value="Questions" id="questions" onchange="showSelections(this)" disabled>
                         <label for="questions">Questions</label>
 
                         <input type="radio" class="btnSelected btnNull" name="type" value="Quiz" id="quiz"  checked onchange="showSelections(this)">
                         <label for="quiz" class="">Quiz</label>
-                        <!-- <button class="btnSelected btnNull" name="Type">
-                            Open
-                        </button> -->
-                        <input type="radio" class="btnSelected btnNull" name="type" value="Open-ended-questions" id="open" onchange="hideSelections(this)">
+                     
+                        <input type="radio" class="btnSelected btnNull" name="type" value="Open-ended-questions" id="open" onchange="hideSelections(this)" disabled>
                         <label for="open" >Open</label>
                     </div>
                     
@@ -146,8 +144,7 @@
                         <input type="radio" class="btnSelected btnNull" name="question_type" value="True or False" id="tf">
                         <label for="tf">T/F</label>
                 
-                        <!-- <input type="radio" class="btnSelected btnNull" name="question_type" value="Mix" id="mix">
-                        <label for="mix">Mix</label> -->
+                        
                     </div>
                 </div>
                 
