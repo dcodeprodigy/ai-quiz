@@ -1,81 +1,110 @@
-<!DOCtype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <!-- Google tag (gtag.js) -->
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-BRN6LSPP6R"></script>
-   <script>
-     window.dataLayer = window.dataLayer || [];
-     function gtag(){dataLayer.push(arguments);}
-     gtag('js', new Date());
-
-     gtag('config', 'G-BRN6LSPP6R');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- <script src="upload.js" defer></script> -->
     <!-- Tailwind CSS & Plain CSS-->
-    <link href="../src/output.css" rel="stylesheet"> 
-    <link rel="stylesheet" href="style.css">
+    <link href="../src/output.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
     <!-- CSS File which will load when we get a request to show generated questions <link rel="stylesheet" href= "quiz.css">  -->
-    <link rel="stylesheet" href="upload.css">
-    <title>Generate Quizzes from Documents</title>
+    <link rel="stylesheet" href="upload.css" />
+    <link rel="stylesheet" href="alert.css" />
+    <title>Machine-Learning-Based Quiz App</title>
     <style>
-        *{
-            box-sizing: border-box;
-            margin: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 15px;
-        }
-        
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        font-size: 15px;
+      }
     </style>
-</head>
-<body>
-    <main class="m-auto main" id="main"> 
-        
+  </head>
+  <body>
+    <main class="m-auto main" id="main">
+      <!-- For displaying error message -->
+      <section class="error-card-container hidden">
+        <div class="error-card">
+          <div class="header">
+            <div class="image">
+              <svg
+                aria-hidden="true"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                ></path>
+              </svg>
+            </div>
+            <div class="content">
+              <h3 class="title">Error</h3>
+              <p class="message">
+                Oops! Something went wrong. Try refreshing the page or wait a
+                few moments
+              </p>
+            </div>
+            <div class="actions">
+              <button class="cancel-error-card" type="button">Okay</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <!-- For displaying error message -->
-         <section class="error-card-container hidden">
-            <div class="error-card">
-                <div class="header">
-                  <div class="image"><svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
-                              <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" stroke-linejoin="round" stroke-linecap="round"></path>
-                            </svg></div>
-                  <div class="content">
-                     <h3 class="title">Error</h3>
-                     <p class="message">Oops! Something went wrong. Please try again or simply refresh the page.</p>
-                  </div>
-                   <div class="actions">
-                     
-                     <button class="cancel-error-card" type="button">Okay</button>
-                  </div>
-                </div>
-                </div>
-         </section>
-         
-        
-       
+      <div
+        class="alert alert-2-secondary hide-alert m-auto"
+        style="margin: auto"
+      >
+        <h3 class="alert-title mb-0">Copied!</h3>
+      </div>
 
-         <form autocomplete="on" class="mainForm self-center justify-center" id="quizForm">
-            <section class="flex flex-row justify-between items-center sticky top-0 headSection"> <!-- For the Head Section-->
-                <h2 class="font-bold text-xl">Create Questions</h2>
-                <button type="submit" class="btn flex justify-between items-center cursor-pointer bg-slate-400 z-10" id="generateBtn">
-                    
-                    <img src="./icons/idea-icon.png" alt="Idea Icon" class="h-8 z-0 -ml-3" loading="lazy">
-                    Generate
-                </button>
-            </section>
+      <form
+        autocomplete="on"
+        class="mainForm self-center justify-center"
+        id="quizForm"
+      >
+        <section
+          class="flex flex-row justify-between items-center sticky top-0 headSection"
+        >
+          <!-- For the Head Section-->
+          <h2 class="font-bold text-xl">Create Questions</h2>
+          <button
+            type="submit"
+            class="btn flex justify-between items-center cursor-pointer bg-slate-400 z-10"
+            id="generateBtn"
+          >
+            <img
+              src="./icons/idea-icon.png"
+              alt="Idea Icon"
+              class="h-8 z-0 -ml-3"
+              loading="lazy"/>Generate
+          </button>
+          
+        </section>
 
-            <section class="inputSection"> <!-- The Input Section et al-->
-                <!-- <input type="reset" value="Clear Form" class="bg-slate-200 absolute right-1 bottom-1 cursor-pointer"> -->
-                <!-- For the Prompt Input Section -->
-                    <textarea type="text" name="prompt" id="promptInput" placeholder="Please Enter Context for Generating Your Questions." class="w-full rounded-xl border-none promptArea bg-slate-100"></textarea>
-                    
+        <section class="inputSection">
+          <!-- The Input Section et al-->
+          <!-- <input type="reset" value="Clear Form" class="bg-slate-200 absolute right-1 bottom-1 cursor-pointer"> -->
+          <!-- For the Prompt Input Section -->
+          <textarea
+            type="text"
+            name="prompt"
+            id="promptInput"
+            placeholder="Please Enter Context for Generating Your Questions."
+            class="w-full rounded-xl border-none promptArea bg-slate-100"
+          ></textarea>
 
-                    <!-- <label for="fileUpload" class="mt-5">Upload PDF, Word Document or HTML:</label>
+          <!-- <label for="fileUpload" class="mt-5">Upload PDF, Word Document or HTML:</label>
                     <input type="file" accept=".pdf,.docx,.doc,.html,.html"> -->
 
-                    <!-- <div class="file-input-container">
+          <!-- <div class="file-input-container">
                         <label for="fileUpload" class="mt-5">
                             Upload File
                             <span class="file-count">No file selected</span>
@@ -83,7 +112,7 @@
                         <input type="file" id="file-input" accept=".txt,.pdf,.doc,.docx,.html,.htm" hidden />
                     </div> -->
 
-                    <!-- <div id="file-upload-modal" class="modal">
+          <!-- <div id="file-upload-modal" class="modal">
                         <div class="modal-content">
                           <span class="close">×</span>
                           <h2>Select Files</h2>
@@ -91,136 +120,237 @@
                           <button id="modal-submit">Upload</button>
                         </div>
                       </div> -->
-                    
-                <div class="chooseQuestForm">
-                    <h3 class="font-bold text-lg">Model</h3>
-                    <div class="btnContainer flex justify-between">
 
-                        <input type="radio" class="btnSelected btnNull" name="model" value="gemini-1.5-flash" id="gemini-flash" checked>
-                        <label for="gemini-flash">1.5-Flash</label>
+          <div class="chooseQuestForm">
+            <h3 class="font-bold text-lg">Type</h3>
+            <div class="btnContainer flex justify-between">
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="type"
+                value="Questions"
+                id="questions"
+                onchange="showSelections(this)"
+              />
+              <label for="questions">Questions</label>
 
-                        <input type="radio" class="btnSelected btnNull" name="model" value="gemini-1.5-pro" id="gemini-pro">
-                        <label for="gemini-pro" class="">1.5-Pro</label>
-                        
-                    </div>                
-    </div>
-                
-                <div class="chooseQuestForm">
-                    <h3 class="font-bold text-lg">Type</h3>
-                    <div class="btnContainer flex justify-between">
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="type"
+                value="Quiz"
+                id="quiz"
+                checked
+                onchange="showSelections(this)"
+              />
+              <label for="quiz" class="">Quiz</label>
+              <!-- <button class="btnSelected btnNull" name="Type">
+                            Open
+                        </button> -->
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="type"
+                value="Open-ended-questions"
+                id="open"
+                onchange="hideSelections(this)"
+              />
+              <label for="open">Open</label>
+            </div>
+          </div>
 
-                        <input type="radio" class="btnSelected btnNull" name="type" value="Questions" id="questions" onchange="showSelections(this)" disabled>
-                        <label for="questions">Questions</label>
+          <div class="chooseQuestForm">
+            <h3 class="font-bold text-lg">From</h3>
+            <div class="btnContainer flex justify-between">
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="from"
+                value="Topic"
+                id="topic"
+              />
+              <label for="topic">Topic</label>
 
-                        <input type="radio" class="btnSelected btnNull" name="type" value="Quiz" id="quiz"  checked onchange="showSelections(this)">
-                        <label for="quiz" class="">Quiz</label>
-                     
-                        <input type="radio" class="btnSelected btnNull" name="type" value="Open-ended-questions" id="open" onchange="hideSelections(this)" disabled>
-                        <label for="open" >Open</label>
-                    </div>
-                    
-                </div>
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="from"
+                value="Context"
+                id="context"
+                checked
+              />
+              <label for="context">Context</label>
+            </div>
+          </div>
 
-                <div class="chooseQuestForm">
-                    <h3 class="font-bold text-lg">From</h3>
-                    <div class="btnContainer flex justify-between" >
-                        
-                        <input type="radio" class="btnSelected btnNull" name="from" value="Topic" id="topic">
-                        <label for="topic">Topic</label>
+          <div class="chooseQuestForm clearRestore clearRadioInput">
+            <h3 class="font-bold text-lg">Question Type</h3>
+            <div class="btnContainer flex justify-between">
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="question_type"
+                value="Multiple Choice"
+                id="mcqs"
+                checked
+              />
+              <label for="mcqs">MCQs</label>
 
-                        <input type="radio" class="btnSelected btnNull" name="from" value="Context" id="context"  checked>
-                        <label for="context">Context</label>
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="question_type"
+                value="True or False"
+                id="tf"
+              />
+              <label for="tf">T/F</label>
 
-                    </div>
-                    
-                </div>
+            </div>
+          </div>
 
-                <div class="chooseQuestForm clearRestore clearRadioInput">
-                    <h3 class="font-bold text-lg">Question Type</h3>
-                    <div class="btnContainer flex justify-between">
-                        <input type="radio" class="btnSelected btnNull" name="question_type" value="Multiple Choice" id="mcqs" checked>
-                        <label for="mcqs">MCQs</label>
-                
-                        <input type="radio" class="btnSelected btnNull" name="question_type" value="True or False" id="tf">
-                        <label for="tf">T/F</label>
-                
-                        
-                    </div>
-                </div>
-                
-                <div class="chooseQuestForm clearRestore">
-                    <h3 class="font-bold text-lg">Number of Choices</h3>
-                    <div class="btnContainer flex justify-between">
-                        <input type="radio" class="btnSelected btnNull" name="no_of_choices" value="2" id="options2">
-                        <label for="options2">2</label>
-                
-                        <input type="radio" class="btnSelected btnNull" name="no_of_choices" value="3" id="options3">
-                        <label for="options3">3</label>
-                
-                        <input type="radio" class="btnSelected btnNull" name="no_of_choices" value="4" id="options4" checked>
-                        <label for="options4">4</label>
-                
-                        <input type="radio" class="btnSelected btnNull" name="no_of_choices" value="5" id="options5">
-                        <label for="options5">5</label>
-                    </div>
-                </div>
+          <div class="chooseQuestForm clearRestore">
+            <h3 class="font-bold text-lg">Number of Choices</h3>
+            <div class="btnContainer flex justify-between">
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="no_of_choices"
+                value="2"
+                id="options2"
+              />
+              <label for="options2">2</label>
 
-                <div class="chooseQuestForm">
-                    <h3 class="font-bold text-lg">Maximum Number of Questions</h3>
-                    <div class="btnContainer flex justify-between">
-                        <input type="radio" class="btnSelected btnNull" name="no_of_questions" value="15" id="questions15" checked>
-                        <label for="questions15">15</label>
-                
-                        <input type="radio" class="btnSelected btnNull" name="no_of_questions" value="30" id="questions30">
-                        <label for="questions30">30</label>
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="no_of_choices"
+                value="3"
+                id="options3"
+              />
+              <label for="options3">3</label>
 
-                        <input type="radio" class="btnSelected btnNull" name="no_of_questions" value="50" id="questions50">
-                        <label for="questions50">50</label>
-                    </div>
-                </div>
-                
-                <div class="chooseQuestForm">
-                    <h3 class="font-bold text-lg">Include Explanation?</h3>
-                    <div class="btnContainer flex justify-between">
-                        <input type="radio" class="btnSelected btnNull" name="include_explanation" value="include explanation" id="yes">
-                        <label for="yes">Yes</label>
-                
-                        <input type="radio" class="btnSelected btnNull" name="include_explanation" value="not include explanation" id="no"  checked>
-                        <label for="no">No, Lol</label>
-                    </div>
-                </div>
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="no_of_choices"
+                value="4"
+                id="options4"
+                checked
+              />
+              <label for="options4">4</label>
 
-                <!-- Set Difficulty of Questions Generated -->
-                
-                <div class="chooseQuestForm">
-                    <h3 class="font-bold text-lg">Difficulty</h3>
-                    <div class="btnContainer backDrop flex justify-between">
-                        <input type="radio" class="selected btnNull btnLevel" name="difficulty" value="easy" id="easy">
-                        <label for="easy" class="btnNull btnLevel difficulty">&#x1F60A; Easy</label>
-                
-                        <input type="radio" class="selected btnLevelSelected btnNull btnLevel" name="difficulty" value="medium" id="medium"  checked>
-                        <label for="medium" class="btnNull btnLevel difficulty">&#x1F610; Medium</label>
-                
-                        <input type="radio" class="selected btnNull btnLevel align-middle" name="difficulty" value="hard" id="hard">
-                        <label for="hard" class="btnNull btnLevel difficulty">&#x1F912; Hard</label>
-                    </div>
-                </div>
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="no_of_choices"
+                value="5"
+                id="options5"
+              />
+              <label for="options5">5</label>
+            </div>
+          </div>
 
-                
-            </section>
+          <div class="chooseQuestForm">
+            <h3 class="font-bold text-lg">Maximum Number of Questions</h3>
+            <div class="btnContainer flex justify-between">
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="no_of_questions"
+                value="15"
+                id="questions15"
+                checked
+              />
+              <label for="questions15">15</label>
 
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="no_of_questions"
+                value="30"
+                id="questions30"
+              />
+              <label for="questions30">30</label>
 
-            
-        </form>
-        
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="no_of_questions"
+                value="50"
+                id="questions50"
+              />
+              <label for="questions50">50</label>
+            </div>
+          </div>
+
+          <div class="chooseQuestForm">
+            <h3 class="font-bold text-lg">Include Explanation?</h3>
+            <div class="btnContainer flex justify-between">
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="include_explanation"
+                value="include explanation"
+                id="yes"
+              />
+              <label for="yes">Yes</label>
+
+              <input
+                type="radio"
+                class="btnSelected btnNull"
+                name="include_explanation"
+                value="not include explanation"
+                id="no"
+                checked
+              />
+              <label for="no">No, Lol</label>
+            </div>
+          </div>
+
+          <!-- Set Difficulty of Questions Generated -->
+
+          <div class="chooseQuestForm">
+            <h3 class="font-bold text-lg">Difficulty</h3>
+            <div class="btnContainer backDrop flex justify-between">
+              <input
+                type="radio"
+                class="selected btnNull btnLevel"
+                name="difficulty"
+                value="easy"
+                id="easy"
+              />
+              <label for="easy" class="btnNull btnLevel difficulty"
+                >&#x1F60A; Easy</label
+              >
+
+              <input
+                type="radio"
+                class="selected btnLevelSelected btnNull btnLevel"
+                name="difficulty"
+                value="medium"
+                id="medium"
+                checked
+              />
+              <label for="medium" class="btnNull btnLevel difficulty"
+                >&#x1F610; Medium</label
+              >
+
+              <input
+                type="radio"
+                class="selected btnNull btnLevel align-middle"
+                name="difficulty"
+                value="hard"
+                id="hard"
+              />
+              <label for="hard" class="btnNull btnLevel difficulty"
+                >&#x1F912; Hard</label
+              >
+            </div>
+          </div>
+        </section>
+      </form>
     </main>
 
-
-
-    
-
-
     <script src="/index.js"></script>
-    
-</body>
+  </body>
 </html>

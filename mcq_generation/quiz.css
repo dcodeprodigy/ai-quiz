@@ -135,9 +135,7 @@ input[type="radio"]:checked+.label .option
     margin-bottom: 10px;
 }
 
-/* .explanationSection p{
-    
-} */
+
 
 /* Label Option Section */
 
@@ -212,4 +210,20 @@ input[type="radio"]:checked+.label .labelTxts{
 .continueBtnWrong:hover{
     background-color: #ec2936a4;
 }
-                          
+   
+
+
+/* copy-to-clipboard */
+#qAndClipSection {
+    display: flex;
+    justify-content: space-between;
+}
+.copy-to-clip{
+    cursor: pointer;
+}
+
+.copy-to-clip:active{
+    background-color: #eeeeee;
+    border-radius: 50%;
+    padding: 2px;
+}
