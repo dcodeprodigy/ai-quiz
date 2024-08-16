@@ -233,6 +233,7 @@ async function runChecks(quizForm) {
 
           console.log(response);
           const generatedQuestions = JSON.parse(response.data.finalModelRes); // Parse the JSON to object
+                console.log(generatedQuestions);
           const quizSection = response.data.quizAppHTML;
 
           if (response.status === 500) { // Handle unprecedented errors
