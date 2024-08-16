@@ -208,6 +208,9 @@ input[type="radio"]:checked+.label .labelTxts{
 .continueBtnWrong{
     background-color: #EC2937;
 }
+.continueBtnWrong:hover{
+    background-color: #ec2936a4;
+}
 
 
 /* copy-to-clipboard */
