@@ -114,7 +114,7 @@ app.post('/genQuestions', async (req, res) => {
   console.log("I am the form, guys:", analyzeReqPrompt()) ;
 
   // Validate Prompt
-  if (formData.prompt.length < 4) {
+  if (formData.prompt <= 4) {
     // console.log(formData.prompt);
     res.status(403).send({ error: "No Prompt" });
   }
