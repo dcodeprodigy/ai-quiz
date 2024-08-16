@@ -19,9 +19,18 @@ const safetySetting = [
   },
   {
     category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-    threshold: HarmBlockThreshold.BLOCK_NONE,
+    threshold: HarmBlockThreshold.BLOCK_NONE
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+    threshold: HarmBlockThreshold.BLOCK_NONE
   },
 ];
+  {
+    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+    threshold: HarmBlockThreshold.BLOCK_NONE
+  }
+  ];
 
 
 
@@ -76,20 +85,25 @@ const tOrFalseSchema = `{
 
 // Declare HTML as string, to be served only when the API has generated questions
 const quizAppHTML = `<form class="quizSection self-center justify-center" id="newQuizForm">
-            <section class="inputSection questionsSection"> 
-                
-                    <h3 class="font-bold text-2xl mb-4" id="questionCounter"></h3>
-                    <p id="questionPara"></p>
+            <section class="inputSection questionsSection">
+
+                        <div id="qAndClipSection">
+                    <h3 class="font-bold text-2xl mb-4" id="questionCounter"></h3>                    
+                    <img width="30" height="30" src="icons/copy-to-clip.png" class="copy-to-clip" onclick="copyText()"/>
+                    </div>
                     <div class="chooseQuestForm" id="subBroadWrapper">
+                    <div id="sectionToCopy">
+                    <p id="questionPara"></p>
                         <br>
                         <div class="selectOptionsContainer  flex flex-col gap-3" id="selectOptionsContainer">
-                        </div>
+                        </div><br>
 
                         <!-- For Inserting Explanation -->
                          <div id="explanationSection" class="explanationSection hidden">
-                            <h3 class="font-bold">Explanation</h3>
+                            <h3 class="font-bold"></h3>
                             <p id="explanation">         
                             </p>
+                         </div>
                          </div>
                         
                         <!-- For Checking Answers -->
