@@ -32,6 +32,40 @@ cancelErrorCard.addEventListener("click", () => { // Removes the displayd error 
   }, 100);
 });
 
+// For copying text
+
+
+function copyText(){
+  const copyTxt = document.querySelector(".copy-to-clip");
+  copyTxt.addEventListener("click", copyText);
+  const section = document.getElementById("sectionToCopy");
+
+  // Create a temporary range object
+  const range = document.createRange();
+  range.selectNodeContents(section);
+
+  // Create a temporary selection object
+  const selection = window.getSelection();
+  selection.removeAllRanges(); // Clear any existing selections
+  selection.addRange(range);
+  document.execCommand('copy');
+
+  // Provide user feedback
+  const alertSection = document.querySelector(".alert");
+  alertSection.classList.remove("hide-alert");
+  alertSection.style.bottom = "80px";
+
+  setTimeout(() => {
+    alertSection.classList.add("hide-alert");
+    alertSection.style.bottom = "-10px";
+
+  }, 4000);
+
+  // Deselect the text (optional)
+  selection.removeAllRanges(); 
+};
+
+
 // Checks for Updating Placeholder on Input Prompt Accordingly
 fromRadios.forEach(function (radio) {
   radio.addEventListener("change", function () {
@@ -379,6 +413,7 @@ async function runChecks(quizForm) {
                       // Append Explanation to Page
                       const explanationSection = document.querySelector(".explanationSection");
                       const explanationParas = explanationSection.querySelector("#explanation");
+                        document.querySelector(".explanationSection h3").textContent = "Explanation";
                       explanationParas.innerHTML = generatedQuestions["questions"][currQuestDisplay - 1]["explanation"];
                       explanationSection.classList.remove("hidden");
                     }
@@ -455,6 +490,8 @@ async function runChecks(quizForm) {
                 if (currQuestDisplay <= generatedQuestions.questions.length) { // Makes sure we still have more questions to display
                   continueBtn.classList.remove("continueBtnCorrect");
                   continueBtn.classList.remove("continueBtnWrong");
+                        let explanationPara = document.querySelector("#explanationSection #explanation");
+                  explanationPara.textContent = "";
                   clearFormData(newAnswerForm);
 
                   // Next, populate with next question
