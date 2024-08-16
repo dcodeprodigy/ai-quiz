@@ -209,6 +209,22 @@ input[type="radio"]:checked+.label .labelTxts{
     background-color: #EC2937;
 }
 
+
+/* copy-to-clipboard */
+#qAndClipSection {
+    display: flex;
+    justify-content: space-between;
+}
+.copy-to-clip{
+    cursor: pointer;
+}
+
+.copy-to-clip:active{
+    background-color: #eeeeee;
+    border-radius: 50%;
+    padding: 2px;
+}
+
 .continueBtnWrong:hover{
     background-color: #ec2936a4;
 }
