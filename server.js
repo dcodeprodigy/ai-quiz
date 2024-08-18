@@ -34,7 +34,7 @@ const safetySetting = [
 
 
 // Access API key as an environment variable 
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const mcqSchema = `{
     "explanation": "Make the value of this 'Yes' or 'No'. 'Yes' if I had told you to include explanation and 'No' if I had told you not to include explanation. This 'explanation' property can only have 2 values",
     "questions": [
