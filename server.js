@@ -6,11 +6,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require('@google/generative-ai');
-
+const keepAppAlive = require('./cron.js')
 // Middleware to parse JSON bodies
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname)));
+app.use(keepAppAlive);
 
 const safetySetting = [
   {
